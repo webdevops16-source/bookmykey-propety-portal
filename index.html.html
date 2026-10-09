@@ -1,0 +1,1105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BookMyKey — Find Your Perfect Home</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    /* Brand navy from logo */
+    --navy:       #111E32;
+    --navy-mid:   #172540;
+    --navy-light: #1E3154;
+    --navy-card:  #16243B;
+
+    /* Logo red */
+    --red:        #D0222A;
+    --red-light:  #E84048;
+
+    /* Claude coral-orange accent */
+    --claude:     #DA7756;
+    --claude-lt:  #E8967A;
+
+    /* Claude warm sand */
+    --sand:       #F0EBE3;
+    --sand-dim:   #E2DAD0;
+
+    /* Text */
+    --ivory:      #F4F0EB;
+    --muted:      #7E8FA8;
+    --subtle:     #4A5A72;
+
+    --white: #fff;
+    --border: rgba(218,119,86,0.15);
+    --border-red: rgba(208,34,42,0.2);
+  }
+
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'Inter', sans-serif;
+    background: var(--navy);
+    color: var(--ivory);
+    overflow-x: hidden;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 5%;
+    height: 66px;
+    background: rgba(17,30,50,0.94);
+    backdrop-filter: blur(14px);
+    border-bottom: 1px solid var(--border);
+  }
+
+  /* Logo — text only, matching real brand */
+  .logo {
+    text-decoration: none;
+    font-family: 'Inter', sans-serif;
+    font-size: 1.45rem;
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    line-height: 1;
+    color: var(--ivory);
+    transition: opacity 0.2s;
+  }
+  .logo:hover { opacity: 0.85; }
+  .logo .my { color: var(--red); }
+  .logo .dot-in { color: var(--muted); font-weight: 600; }
+
+  nav ul { display: flex; gap: 28px; list-style: none; align-items: center; }
+  nav ul a {
+    color: var(--muted);
+    text-decoration: none;
+    font-size: 0.875rem;
+    font-weight: 500;
+    transition: color 0.2s;
+  }
+  nav ul a:hover { color: var(--ivory); }
+
+  .nav-cta {
+    background: var(--red) !important;
+    color: #fff !important;
+    padding: 8px 20px;
+    border-radius: 7px;
+    font-weight: 600 !important;
+    transition: background 0.2s, transform 0.15s !important;
+  }
+  .nav-cta:hover { background: var(--red-light) !important; transform: translateY(-1px); }
+
+  /* ── HERO ── */
+  .hero {
+    min-height: 100vh;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    text-align: center;
+    padding: 120px 5% 80px;
+    position: relative; overflow: hidden;
+  }
+
+  .hero-bg {
+    position: absolute; inset: 0;
+    background:
+      radial-gradient(ellipse 70% 55% at 50% -5%, rgba(218,119,86,0.13) 0%, transparent 60%),
+      radial-gradient(ellipse 50% 50% at 90% 90%, rgba(208,34,42,0.07) 0%, transparent 55%),
+      linear-gradient(180deg, #111E32 0%, #0C1828 100%);
+  }
+
+  .hero-grid {
+    position: absolute; inset: 0;
+    background-image:
+      linear-gradient(rgba(218,119,86,0.05) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(218,119,86,0.05) 1px, transparent 1px);
+    background-size: 56px 56px;
+    mask-image: radial-gradient(ellipse 75% 75% at 50% 40%, black 0%, transparent 72%);
+  }
+
+  .hero-eyebrow {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.72rem;
+    letter-spacing: 0.22em;
+    color: var(--claude);
+    text-transform: uppercase;
+    margin-bottom: 22px;
+    position: relative;
+    display: inline-flex; align-items: center; gap: 12px;
+  }
+  .hero-eyebrow::before, .hero-eyebrow::after {
+    content: ''; display: block;
+    width: 28px; height: 1px;
+    background: var(--claude); opacity: 0.5;
+  }
+
+  .hero h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2.6rem, 5.5vw, 5.2rem);
+    font-weight: 900;
+    line-height: 1.06;
+    letter-spacing: -0.025em;
+    color: var(--ivory);
+    margin-bottom: 22px;
+    position: relative;
+    max-width: 840px;
+  }
+  .hero h1 em { font-style: italic; color: var(--claude); }
+
+  .hero-sub {
+    font-size: 1.05rem;
+    color: var(--muted);
+    max-width: 480px;
+    line-height: 1.75;
+    margin-bottom: 44px;
+    position: relative;
+  }
+
+  /* Search */
+  .search-container {
+    width: 100%; max-width: 720px;
+    margin-bottom: 36px;
+    position: relative;
+  }
+
+  .search-tabs {
+    display: flex; gap: 0;
+    margin-bottom: -1px;
+    position: relative; z-index: 1;
+  }
+
+  .search-tab {
+    background: transparent;
+    border: 1px solid transparent;
+    border-bottom: none;
+    color: var(--muted);
+    font-family: 'Inter', sans-serif;
+    font-size: 0.82rem;
+    font-weight: 600;
+    padding: 8px 20px;
+    border-radius: 8px 8px 0 0;
+    cursor: pointer;
+    transition: all 0.2s;
+    letter-spacing: 0.02em;
+  }
+  .search-tab.active {
+    background: var(--navy-mid);
+    border-color: var(--border);
+    color: var(--claude);
+  }
+
+  .search-bar {
+    display: flex;
+    background: var(--navy-mid);
+    border: 1px solid var(--border);
+    border-radius: 0 10px 10px 10px;
+    overflow: hidden;
+    transition: border-color 0.2s, box-shadow 0.2s;
+  }
+  .search-bar:focus-within {
+    border-color: var(--claude);
+    box-shadow: 0 0 0 3px rgba(218,119,86,0.12);
+  }
+
+  .search-select {
+    background: transparent; border: none;
+    border-right: 1px solid var(--border);
+    color: var(--ivory);
+    font-family: 'Inter', sans-serif; font-size: 0.85rem;
+    padding: 15px 18px; cursor: pointer; outline: none; min-width: 150px;
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%237E8FA8'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 14px center;
+    padding-right: 36px;
+  }
+  .search-select option { background: #172540; }
+
+  .search-input {
+    flex: 1; background: transparent; border: none;
+    color: var(--ivory);
+    font-family: 'Inter', sans-serif; font-size: 0.95rem;
+    padding: 15px 20px; outline: none;
+  }
+  .search-input::placeholder { color: var(--muted); }
+
+  .search-btn {
+    background: var(--red); border: none;
+    color: #fff;
+    font-family: 'Inter', sans-serif; font-weight: 700; font-size: 0.88rem;
+    padding: 0 30px; cursor: pointer;
+    transition: background 0.2s;
+    display: flex; align-items: center; gap: 8px;
+    white-space: nowrap; letter-spacing: 0.02em;
+  }
+  .search-btn:hover { background: var(--red-light); }
+  .search-btn svg { width: 16px; height: 16px; }
+
+  /* Hero stats */
+  .hero-stats {
+    display: flex; gap: 0;
+    position: relative;
+    background: rgba(22,36,59,0.6);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    overflow: hidden;
+  }
+
+  .stat {
+    padding: 18px 32px;
+    text-align: center;
+    position: relative;
+  }
+  .stat:not(:last-child)::after {
+    content: '';
+    position: absolute; right: 0; top: 20%; bottom: 20%;
+    width: 1px; background: var(--border);
+  }
+
+  .stat-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.7rem; font-weight: 700;
+    color: var(--ivory);
+    line-height: 1;
+  }
+  .stat-num sup { color: var(--claude); font-size: 1rem; vertical-align: super; }
+  .stat-label {
+    font-size: 0.7rem; color: var(--muted);
+    letter-spacing: 0.06em; text-transform: uppercase;
+    margin-top: 5px;
+  }
+
+  /* ── FILTER CHIPS ── */
+  .filter-bar {
+    padding: 28px 5% 0;
+    display: flex; gap: 8px; flex-wrap: wrap; justify-content: center;
+  }
+  .chip {
+    background: transparent;
+    border: 1px solid rgba(126,143,168,0.25);
+    color: var(--muted);
+    border-radius: 100px;
+    padding: 7px 16px;
+    font-size: 0.78rem; font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-family: 'Inter', sans-serif;
+  }
+  .chip:hover { border-color: var(--claude); color: var(--claude); }
+  .chip.active {
+    border-color: var(--claude);
+    color: var(--navy);
+    background: var(--claude);
+    font-weight: 600;
+  }
+
+  /* ── SECTIONS ── */
+  .section { padding: 80px 5%; }
+
+  .section-header {
+    display: flex; align-items: flex-end; justify-content: space-between;
+    margin-bottom: 36px;
+  }
+
+  .section-eyebrow {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.68rem; letter-spacing: 0.18em;
+    color: var(--claude); text-transform: uppercase; margin-bottom: 7px;
+  }
+
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(1.7rem, 2.8vw, 2.5rem);
+    font-weight: 700; line-height: 1.15; color: var(--ivory);
+  }
+
+  .section-link {
+    color: var(--claude); text-decoration: none;
+    font-size: 0.85rem; font-weight: 500;
+    border-bottom: 1px solid rgba(218,119,86,0.4);
+    padding-bottom: 2px;
+    transition: border-color 0.2s; white-space: nowrap; margin-bottom: 4px;
+  }
+  .section-link:hover { border-color: var(--claude); }
+
+  /* ── PROPERTY CARDS ── */
+  .featured-grid {
+    display: grid;
+    grid-template-columns: 1.55fr 1fr;
+    grid-template-rows: auto auto;
+    gap: 18px;
+  }
+
+  .property-card {
+    background: var(--navy-card);
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 14px;
+    overflow: hidden;
+    cursor: pointer;
+    transition: transform 0.3s cubic-bezier(0.34,1.1,0.64,1), box-shadow 0.3s, border-color 0.2s;
+    position: relative;
+  }
+  .property-card:hover {
+    transform: translateY(-5px);
+    border-color: rgba(218,119,86,0.35);
+    box-shadow: 0 24px 60px rgba(0,0,0,0.4), 0 0 0 1px rgba(218,119,86,0.08);
+  }
+  .property-card.featured { grid-row: 1 / 3; }
+
+  .card-img-wrap {
+    position: relative; overflow: hidden;
+  }
+
+  .card-img-ph {
+    width: 100%; display: flex; align-items: center; justify-content: center;
+    font-size: 3rem;
+    background: linear-gradient(135deg, var(--navy-light) 0%, var(--navy-mid) 100%);
+  }
+  .card-img-ph::after {
+    content: ''; position: absolute; inset: 0;
+    background: linear-gradient(180deg, transparent 40%, rgba(17,30,50,0.7) 100%);
+  }
+
+  .card-badge {
+    position: absolute; top: 14px; left: 14px;
+    font-size: 0.68rem; font-weight: 700;
+    letter-spacing: 0.08em; text-transform: uppercase;
+    padding: 4px 10px; border-radius: 5px; z-index: 2;
+    background: var(--claude); color: var(--navy);
+  }
+  .card-badge.sale { background: var(--red); color: #fff; }
+  .card-badge.new  { background: #3B82F6; color: #fff; }
+  .card-badge.prem { background: linear-gradient(135deg, #7C3AED, #A855F7); color: #fff; }
+
+  .card-save {
+    position: absolute; top: 12px; right: 12px;
+    width: 32px; height: 32px;
+    background: rgba(17,30,50,0.7); border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 50%; display: flex; align-items: center; justify-content: center;
+    cursor: pointer; z-index: 2; font-size: 0.85rem;
+    transition: background 0.2s;
+  }
+  .card-save:hover { background: rgba(208,34,42,0.25); }
+
+  .card-body { padding: 18px 20px 20px; }
+
+  .card-price {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.3rem; font-weight: 700; color: var(--ivory); margin-bottom: 2px;
+  }
+  .property-card.featured .card-price { font-size: 1.65rem; }
+
+  .card-price-tag {
+    display: inline-block;
+    background: rgba(218,119,86,0.12);
+    color: var(--claude);
+    font-size: 0.68rem; font-weight: 600; letter-spacing: 0.05em;
+    padding: 2px 8px; border-radius: 4px; margin-bottom: 10px;
+    text-transform: uppercase;
+  }
+
+  .card-title {
+    font-size: 0.95rem; font-weight: 600; color: var(--ivory);
+    margin-bottom: 5px;
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  }
+  .property-card.featured .card-title { font-size: 1.15rem; white-space: normal; }
+
+  .card-location {
+    font-size: 0.78rem; color: var(--muted);
+    display: flex; align-items: center; gap: 4px; margin-bottom: 14px;
+  }
+
+  .card-specs {
+    display: flex; gap: 14px; flex-wrap: wrap;
+    padding-top: 14px;
+    border-top: 1px solid rgba(255,255,255,0.06);
+  }
+  .spec {
+    display: flex; align-items: center; gap: 5px;
+    font-size: 0.75rem; color: var(--muted);
+    font-family: 'JetBrains Mono', monospace;
+  }
+
+  .listing-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(295px, 1fr));
+    gap: 18px;
+  }
+
+  /* ── CITIES ── */
+  .cities-section {
+    padding: 80px 5%;
+    background: var(--navy-mid);
+    border-top: 1px solid rgba(255,255,255,0.04);
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+  }
+
+  .cities-grid {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 14px; margin-top: 36px;
+  }
+
+  .city-card {
+    background: var(--navy);
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 12px;
+    padding: 22px 12px;
+    text-align: center; cursor: pointer;
+    transition: all 0.25s;
+  }
+  .city-card:hover {
+    border-color: var(--claude);
+    transform: translateY(-3px);
+    background: rgba(218,119,86,0.05);
+  }
+  .city-emoji { font-size: 1.8rem; margin-bottom: 9px; display: block; }
+  .city-name { font-size: 0.88rem; font-weight: 600; color: var(--ivory); }
+  .city-count {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.65rem; color: var(--claude); margin-top: 4px;
+  }
+
+  /* ── WHY ── */
+  .why-section {
+    padding: 80px 5%;
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 72px; align-items: center;
+  }
+
+  .why-desc {
+    color: var(--muted); line-height: 1.78;
+    margin-bottom: 34px; font-size: 0.95rem;
+  }
+
+  .why-features { display: flex; flex-direction: column; gap: 22px; }
+
+  .feature-item { display: flex; gap: 16px; align-items: flex-start; }
+
+  .feature-icon {
+    width: 42px; height: 42px;
+    background: rgba(218,119,86,0.1);
+    border: 1px solid rgba(218,119,86,0.2);
+    border-radius: 11px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.1rem; flex-shrink: 0;
+  }
+
+  .feature-text h4 { font-weight: 600; color: var(--ivory); margin-bottom: 3px; font-size: 0.92rem; }
+  .feature-text p  { font-size: 0.8rem; color: var(--muted); line-height: 1.55; }
+
+  /* Card stack */
+  .why-visual { position: relative; }
+  .why-card-stack { position: relative; height: 420px; }
+
+  .stack-card {
+    position: absolute; width: 100%;
+    background: var(--navy-card);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 16px; padding: 22px;
+  }
+  .stack-card:nth-child(1) { top: 32px; left: 22px; right: -12px; opacity: 0.35; transform: rotate(3.5deg); }
+  .stack-card:nth-child(2) { top: 16px; left: 11px; right: -6px; opacity: 0.6; transform: rotate(1.8deg); }
+  .stack-card:nth-child(3) { top: 0; left: 0; right: 0; }
+
+  .stack-img {
+    width: 100%; height: 150px; border-radius: 10px;
+    background: linear-gradient(135deg, var(--navy-light), var(--navy-mid));
+    display: flex; align-items: center; justify-content: center;
+    font-size: 2.8rem; margin-bottom: 16px;
+  }
+
+  .agent-row {
+    display: flex; align-items: center; justify-content: space-between;
+    padding-top: 14px;
+    border-top: 1px solid rgba(255,255,255,0.06);
+    margin-top: 12px;
+  }
+  .agent-info { display: flex; align-items: center; gap: 10px; }
+  .agent-avatar {
+    width: 32px; height: 32px; background: var(--red);
+    border-radius: 50%; display: flex; align-items: center; justify-content: center;
+    font-size: 0.7rem; font-weight: 700; color: #fff;
+  }
+  .agent-name { font-size: 0.8rem; font-weight: 600; color: var(--ivory); }
+  .agent-role { font-size: 0.68rem; color: var(--muted); }
+
+  .contact-btn {
+    background: transparent; border: 1px solid var(--claude);
+    color: var(--claude);
+    padding: 6px 14px; border-radius: 6px;
+    font-size: 0.75rem; font-weight: 500;
+    cursor: pointer; font-family: 'Inter', sans-serif;
+    transition: all 0.2s;
+  }
+  .contact-btn:hover { background: var(--claude); color: var(--navy); }
+
+  /* ── CTA BAND ── */
+  .cta-section {
+    margin: 0 5% 80px;
+    background: linear-gradient(130deg, var(--navy-light) 0%, rgba(30,49,84,0.7) 100%);
+    border: 1px solid rgba(218,119,86,0.2);
+    border-radius: 20px;
+    padding: 60px 56px;
+    display: flex; align-items: center; justify-content: space-between; gap: 40px;
+    position: relative; overflow: hidden;
+  }
+  .cta-section::before {
+    content: '';
+    position: absolute; right: -80px; top: -80px;
+    width: 320px; height: 320px;
+    background: radial-gradient(circle, rgba(218,119,86,0.12) 0%, transparent 68%);
+    border-radius: 50%;
+  }
+  .cta-section::after {
+    content: '';
+    position: absolute; left: -40px; bottom: -60px;
+    width: 200px; height: 200px;
+    background: radial-gradient(circle, rgba(208,34,42,0.08) 0%, transparent 70%);
+    border-radius: 50%;
+  }
+
+  .cta-text h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(1.5rem, 2.4vw, 2.1rem);
+    font-weight: 700; color: var(--ivory); margin-bottom: 9px;
+    position: relative;
+  }
+  .cta-text p { color: var(--muted); font-size: 0.93rem; position: relative; }
+
+  .cta-actions { display: flex; gap: 12px; flex-shrink: 0; position: relative; }
+
+  .btn-primary {
+    background: var(--red); color: #fff;
+    border: none; padding: 13px 26px;
+    border-radius: 8px; font-weight: 700; font-size: 0.88rem;
+    cursor: pointer; font-family: 'Inter', sans-serif;
+    transition: background 0.2s, transform 0.15s;
+    text-decoration: none; display: inline-block; letter-spacing: 0.01em;
+  }
+  .btn-primary:hover { background: var(--red-light); transform: translateY(-2px); }
+
+  .btn-secondary {
+    background: transparent; color: var(--ivory);
+    border: 1px solid rgba(255,255,255,0.15);
+    padding: 13px 26px; border-radius: 8px;
+    font-weight: 500; font-size: 0.88rem;
+    cursor: pointer; font-family: 'Inter', sans-serif;
+    transition: border-color 0.2s, color 0.2s;
+    text-decoration: none; display: inline-block;
+  }
+  .btn-secondary:hover { border-color: var(--claude); color: var(--claude); }
+
+  /* ── FOOTER ── */
+  footer {
+    background: var(--navy-mid);
+    border-top: 1px solid rgba(255,255,255,0.05);
+    padding: 60px 5% 30px;
+  }
+
+  .footer-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1fr;
+    gap: 48px; margin-bottom: 48px;
+  }
+
+  .footer-logo {
+    font-family: 'Inter', sans-serif;
+    font-size: 1.4rem; font-weight: 800;
+    letter-spacing: -0.03em; color: var(--ivory);
+    margin-bottom: 14px; display: block;
+  }
+  .footer-logo .my  { color: var(--red); }
+  .footer-logo .dot-in { color: var(--muted); font-weight: 600; }
+
+  .footer-desc { color: var(--muted); font-size: 0.83rem; line-height: 1.72; margin-bottom: 22px; }
+
+  .social-links { display: flex; gap: 10px; }
+  .social-link {
+    width: 34px; height: 34px;
+    background: var(--navy); border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 8px; display: flex; align-items: center; justify-content: center;
+    color: var(--muted); text-decoration: none; font-size: 0.85rem;
+    transition: all 0.2s;
+  }
+  .social-link:hover { border-color: var(--claude); color: var(--claude); }
+
+  .footer-col h5 {
+    font-size: 0.75rem; font-weight: 700;
+    letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--ivory); margin-bottom: 16px;
+  }
+  .footer-col ul { list-style: none; }
+  .footer-col ul li { margin-bottom: 10px; }
+  .footer-col ul a {
+    color: var(--muted); text-decoration: none;
+    font-size: 0.83rem; transition: color 0.2s;
+  }
+  .footer-col ul a:hover { color: var(--claude); }
+
+  .footer-bottom {
+    border-top: 1px solid rgba(255,255,255,0.05);
+    padding-top: 24px;
+    display: flex; justify-content: space-between; align-items: center;
+  }
+  .footer-bottom p { font-size: 0.75rem; color: var(--muted); }
+
+  /* ── TRUST BAR ── */
+  .trust-bar {
+    background: rgba(218,119,86,0.06);
+    border-top: 1px solid rgba(218,119,86,0.1);
+    border-bottom: 1px solid rgba(218,119,86,0.1);
+    padding: 20px 5%;
+    display: flex; align-items: center; justify-content: center;
+    gap: 48px; flex-wrap: wrap;
+  }
+  .trust-item {
+    display: flex; align-items: center; gap: 9px;
+    font-size: 0.8rem; color: var(--muted); font-weight: 500;
+  }
+  .trust-item span { font-size: 1rem; }
+
+  /* ── ANIMATIONS ── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(22px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  .hero > * { animation: fadeUp 0.65s ease both; }
+  .hero-eyebrow { animation-delay: 0.05s; }
+  .hero h1      { animation-delay: 0.15s; }
+  .hero-sub     { animation-delay: 0.25s; }
+  .search-container { animation-delay: 0.35s; }
+  .hero-stats   { animation-delay: 0.45s; }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 960px) {
+    nav ul { display: none; }
+    .featured-grid { grid-template-columns: 1fr; }
+    .property-card.featured { grid-row: auto; }
+    .cities-grid { grid-template-columns: repeat(3, 1fr); }
+    .why-section { grid-template-columns: 1fr; }
+    .why-visual { display: none; }
+    .footer-grid { grid-template-columns: 1fr 1fr; }
+    .cta-section { flex-direction: column; text-align: center; padding: 44px 32px; }
+    .cta-actions { justify-content: center; }
+  }
+  @media (max-width: 580px) {
+    .hero h1 { font-size: 2.3rem; }
+    .cities-grid { grid-template-columns: repeat(2, 1fr); }
+    .search-bar { flex-direction: column; border-radius: 10px; }
+    .search-select { border-right: none; border-bottom: 1px solid var(--border); }
+    .search-btn { padding: 14px; }
+    .hero-stats { flex-wrap: wrap; }
+    .stat { flex: 1 1 40%; }
+    .footer-grid { grid-template-columns: 1fr; }
+    .trust-bar { gap: 20px; }
+    .cta-section { margin: 0 4% 60px; padding: 36px 24px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a class="logo" href="#">book<span class="my">my</span>key<span class="dot-in">.in</span></a>
+  <ul>
+    <li><a href="#">Buy</a></li>
+    <li><a href="#">Rent</a></li>
+    <li><a href="#">Commercial</a></li>
+    <li><a href="#">New Projects</a></li>
+    <li><a href="#">Agents</a></li>
+    <li><a href="#" class="nav-cta">List Property</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-grid"></div>
+
+  <div class="hero-eyebrow">India's Verified Property Platform</div>
+
+  <h1>Find the home<br>that <em>fits your life</em></h1>
+
+  <p class="hero-sub">Verified listings across India's top cities. Buy, rent, or invest — with zero guesswork.</p>
+
+  <div class="search-container">
+    <div class="search-tabs">
+      <button class="search-tab active" onclick="switchTab(this)">Buy</button>
+      <button class="search-tab" onclick="switchTab(this)">Rent</button>
+      <button class="search-tab" onclick="switchTab(this)">Commercial</button>
+      <button class="search-tab" onclick="switchTab(this)">PG / Hostel</button>
+    </div>
+    <div class="search-bar">
+      <select class="search-select">
+        <option>All Property Types</option>
+        <option>Apartment</option>
+        <option>Villa / House</option>
+        <option>Plot / Land</option>
+        <option>Builder Floor</option>
+      </select>
+      <input class="search-input" type="text" placeholder="Search city, locality, project name…">
+      <button class="search-btn">
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="6.5" cy="6.5" r="4.5"/><path d="M10.5 10.5l3.5 3.5"/>
+        </svg>
+        Search
+      </button>
+    </div>
+  </div>
+
+  <div class="hero-stats">
+    <div class="stat">
+      <div class="stat-num">42<sup>K+</sup></div>
+      <div class="stat-label">Active Listings</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num">18<sup>+</sup></div>
+      <div class="stat-label">Cities</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num">97<sup>%</sup></div>
+      <div class="stat-label">Verified</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num">8<sup>K+</sup></div>
+      <div class="stat-label">Happy Families</div>
+    </div>
+  </div>
+</section>
+
+<!-- TRUST BAR -->
+<div class="trust-bar">
+  <div class="trust-item"><span>✅</span> RERA Registered Listings</div>
+  <div class="trust-item"><span>🔒</span> Zero Brokerage on Rentals</div>
+  <div class="trust-item"><span>📍</span> Site-Visit Verified</div>
+  <div class="trust-item"><span>🤝</span> Dedicated Home Advisor</div>
+  <div class="trust-item"><span>⚡</span> Instant Owner Connect</div>
+</div>
+
+<!-- FILTER CHIPS -->
+<div class="filter-bar" style="padding-top:36px; padding-bottom:8px;">
+  <button class="chip active" onclick="toggleChip(this)">All Types</button>
+  <button class="chip" onclick="toggleChip(this)">Apartment</button>
+  <button class="chip" onclick="toggleChip(this)">Villa</button>
+  <button class="chip" onclick="toggleChip(this)">Plot / Land</button>
+  <button class="chip" onclick="toggleChip(this)">1 BHK</button>
+  <button class="chip" onclick="toggleChip(this)">2 BHK</button>
+  <button class="chip" onclick="toggleChip(this)">3 BHK</button>
+  <button class="chip" onclick="toggleChip(this)">4+ BHK</button>
+  <button class="chip" onclick="toggleChip(this)">Ready to Move</button>
+  <button class="chip" onclick="toggleChip(this)">Under ₹50L</button>
+</div>
+
+<!-- FEATURED LISTINGS -->
+<section class="section">
+  <div class="section-header">
+    <div>
+      <div class="section-eyebrow">Featured</div>
+      <h2 class="section-title">Premium Properties</h2>
+    </div>
+    <a href="#" class="section-link">View all listings →</a>
+  </div>
+
+  <div class="featured-grid">
+    <!-- Big card -->
+    <div class="property-card featured">
+      <div class="card-img-wrap">
+        <div class="card-img-ph" style="height:400px;">🏛️</div>
+        <div class="card-badge prem">Premium</div>
+        <div class="card-save">🤍</div>
+      </div>
+      <div class="card-body">
+        <div class="card-price">₹2.85 Cr</div>
+        <div class="card-price-tag">EMI from ₹1.9L/mo · Negotiable</div>
+        <div class="card-title">Prestige Lakeside Estate — 4 BHK Luxury Villa</div>
+        <div class="card-location">📍 Whitefield, Bengaluru · 2.3 km from Metro</div>
+        <div class="card-specs">
+          <div class="spec">🛏 4 Beds</div>
+          <div class="spec">🚿 4 Baths</div>
+          <div class="spec">📐 3,200 sqft</div>
+          <div class="spec">🚗 2 Parking</div>
+          <div class="spec">🌳 Garden</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Side card 1 -->
+    <div class="property-card">
+      <div class="card-img-wrap">
+        <div class="card-img-ph" style="height:195px;">🏢</div>
+        <div class="card-badge sale">For Sale</div>
+        <div class="card-save">🤍</div>
+      </div>
+      <div class="card-body">
+        <div class="card-price">₹78 L</div>
+        <div class="card-price-tag">EMI from ₹52K/mo</div>
+        <div class="card-title">Sobha Dream Homes — 2 BHK</div>
+        <div class="card-location">📍 OMR, Chennai</div>
+        <div class="card-specs">
+          <div class="spec">🛏 2 Beds</div>
+          <div class="spec">🚿 2 Baths</div>
+          <div class="spec">📐 1,050 sqft</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Side card 2 -->
+    <div class="property-card">
+      <div class="card-img-wrap">
+        <div class="card-img-ph" style="height:195px;">🏠</div>
+        <div class="card-badge new">New</div>
+        <div class="card-save">🤍</div>
+      </div>
+      <div class="card-body">
+        <div class="card-price">₹34K<small style="color:var(--muted);font-weight:400">/mo</small></div>
+        <div class="card-price-tag">Security deposit: 2 months</div>
+        <div class="card-title">Urbana Heights — 3 BHK Rental</div>
+        <div class="card-location">📍 Banjara Hills, Hyderabad</div>
+        <div class="card-specs">
+          <div class="spec">🛏 3 Beds</div>
+          <div class="spec">🚿 2 Baths</div>
+          <div class="spec">📐 1,620 sqft</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- NEW LISTINGS -->
+<section class="section" style="padding-top:0">
+  <div class="section-header">
+    <div>
+      <div class="section-eyebrow">Recently Added</div>
+      <h2 class="section-title">New on the Market</h2>
+    </div>
+    <a href="#" class="section-link">Browse all →</a>
+  </div>
+
+  <div class="listing-grid">
+    <div class="property-card">
+      <div class="card-img-wrap">
+        <div class="card-img-ph" style="height:190px;">🌆</div>
+        <div class="card-badge">For Rent</div>
+        <div class="card-save">🤍</div>
+      </div>
+      <div class="card-body">
+        <div class="card-price">₹18K<small style="color:var(--muted);font-weight:400">/mo</small></div>
+        <div class="card-title">Kohinoor Prime — 1 BHK</div>
+        <div class="card-location">📍 Andheri West, Mumbai</div>
+        <div class="card-specs">
+          <div class="spec">🛏 1 Bed</div><div class="spec">🚿 1 Bath</div><div class="spec">📐 580 sqft</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="property-card">
+      <div class="card-img-wrap">
+        <div class="card-img-ph" style="height:190px;">🏗️</div>
+        <div class="card-badge new">New</div>
+        <div class="card-save">🤍</div>
+      </div>
+      <div class="card-body">
+        <div class="card-price">₹1.12 Cr</div>
+        <div class="card-title">DLF Garden City — 3 BHK</div>
+        <div class="card-location">📍 Sector 93, Gurgaon</div>
+        <div class="card-specs">
+          <div class="spec">🛏 3 Beds</div><div class="spec">🚿 3 Baths</div><div class="spec">📐 1,890 sqft</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="property-card">
+      <div class="card-img-wrap">
+        <div class="card-img-ph" style="height:190px;">🌳</div>
+        <div class="card-badge sale">For Sale</div>
+        <div class="card-save">🤍</div>
+      </div>
+      <div class="card-body">
+        <div class="card-price">₹55 L</div>
+        <div class="card-title">Green Valley Residency — 2 BHK</div>
+        <div class="card-location">📍 Wakad, Pune</div>
+        <div class="card-specs">
+          <div class="spec">🛏 2 Beds</div><div class="spec">🚿 2 Baths</div><div class="spec">📐 970 sqft</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CITIES -->
+<section class="cities-section">
+  <div class="section-header">
+    <div>
+      <div class="section-eyebrow">Explore by City</div>
+      <h2 class="section-title">Where do you want to live?</h2>
+    </div>
+  </div>
+  <div class="cities-grid">
+    <div class="city-card"><span class="city-emoji">🌆</span><div class="city-name">Mumbai</div><div class="city-count">8,400+ listings</div></div>
+    <div class="city-card"><span class="city-emoji">🌿</span><div class="city-name">Bengaluru</div><div class="city-count">11,200+ listings</div></div>
+    <div class="city-card"><span class="city-emoji">☀️</span><div class="city-name">Chennai</div><div class="city-count">5,800+ listings</div></div>
+    <div class="city-card"><span class="city-emoji">🏯</span><div class="city-name">Hyderabad</div><div class="city-count">7,100+ listings</div></div>
+    <div class="city-card"><span class="city-emoji">🏛️</span><div class="city-name">Delhi NCR</div><div class="city-count">9,600+ listings</div></div>
+    <div class="city-card"><span class="city-emoji">🌊</span><div class="city-name">Pune</div><div class="city-count">4,300+ listings</div></div>
+  </div>
+</section>
+
+<!-- WHY BOOKMYKEY -->
+<section class="why-section">
+  <div class="why-content">
+    <div class="section-eyebrow">Why BookMyKey</div>
+    <h2 class="section-title" style="margin-bottom:18px;">Every listing,<br>fully verified</h2>
+    <p class="why-desc">We visit every property before it goes live. No fake listings, no ghost brokers — just honest homes and transparent prices so you can decide with confidence.</p>
+    <div class="why-features">
+      <div class="feature-item">
+        <div class="feature-icon">🔑</div>
+        <div class="feature-text">
+          <h4>Zero Brokerage on Rentals</h4>
+          <p>Direct connection between owners and tenants. Keep your first month's rent where it belongs.</p>
+        </div>
+      </div>
+      <div class="feature-item">
+        <div class="feature-icon">✅</div>
+        <div class="feature-text">
+          <h4>Site-Visit Verification</h4>
+          <p>Our team physically checks every property. Blue-tick listings have passed our 12-point audit.</p>
+        </div>
+      </div>
+      <div class="feature-item">
+        <div class="feature-icon">📊</div>
+        <div class="feature-text">
+          <h4>Fair Price Estimates</h4>
+          <p>Market data from real transactions — not just asking prices — so you always know a fair deal.</p>
+        </div>
+      </div>
+      <div class="feature-item">
+        <div class="feature-icon">🤝</div>
+        <div class="feature-text">
+          <h4>Dedicated Home Advisor</h4>
+          <p>One point of contact from shortlist to keys in hand. No juggling five different brokers.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="why-visual">
+    <div class="why-card-stack">
+      <div class="stack-card"><div class="stack-img">🏡</div></div>
+      <div class="stack-card"><div class="stack-img">🏢</div></div>
+      <div class="stack-card">
+        <div class="stack-img">🌆</div>
+        <div style="font-size:1rem;font-weight:600;color:var(--ivory);margin-bottom:4px;">Skyline Residences</div>
+        <div style="font-size:0.78rem;color:var(--muted);margin-bottom:10px;">📍 Koramangala, Bengaluru</div>
+        <div style="font-family:'Playfair Display',serif;font-size:1.35rem;font-weight:700;color:var(--ivory);">₹1.45 Cr</div>
+        <div class="agent-row">
+          <div class="agent-info">
+            <div class="agent-avatar">RK</div>
+            <div>
+              <div class="agent-name">Rohit Kumar</div>
+              <div class="agent-role">Verified Agent · 4.9 ⭐</div>
+            </div>
+          </div>
+          <button class="contact-btn">Contact</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<div class="cta-section">
+  <div class="cta-text">
+    <h2>Ready to list your property?</h2>
+    <p>Reach lakhs of verified buyers and tenants across India — free for the first 90 days.</p>
+  </div>
+  <div class="cta-actions">
+    <a href="#" class="btn-primary">List for Free</a>
+    <a href="#" class="btn-secondary">Talk to an Expert</a>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-grid">
+    <div>
+      <span class="footer-logo">book<span class="my">my</span>key<span class="dot-in">.in</span></span>
+      <p class="footer-desc">India's most trusted property platform. Find verified homes to buy, rent or invest — across 18+ cities.</p>
+      <div class="social-links">
+        <a class="social-link" href="#">𝕏</a>
+        <a class="social-link" href="#">in</a>
+        <a class="social-link" href="#">f</a>
+        <a class="social-link" href="#">▶</a>
+      </div>
+    </div>
+    <div class="footer-col">
+      <h5>Explore</h5>
+      <ul>
+        <li><a href="#">Buy Property</a></li>
+        <li><a href="#">Rent a Home</a></li>
+        <li><a href="#">Commercial Space</a></li>
+        <li><a href="#">New Projects</a></li>
+        <li><a href="#">PG & Co-living</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h5>Company</h5>
+      <ul>
+        <li><a href="#">About Us</a></li>
+        <li><a href="#">Careers</a></li>
+        <li><a href="#">Press</a></li>
+        <li><a href="#">Blog</a></li>
+        <li><a href="#">Contact</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h5>Support</h5>
+      <ul>
+        <li><a href="#">Help Centre</a></li>
+        <li><a href="#">Report a Listing</a></li>
+        <li><a href="#">Privacy Policy</a></li>
+        <li><a href="#">Terms of Use</a></li>
+        <li><a href="#">Sitemap</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2025 BookMyKey Realty Pvt. Ltd. · RERA Registered</p>
+    <p>Made with ♥ in India</p>
+  </div>
+</footer>
+
+<script>
+  function toggleChip(el) {
+    document.querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
+    el.classList.add('active');
+  }
+
+  function switchTab(el) {
+    document.querySelectorAll('.search-tab').forEach(t => t.classList.remove('active'));
+    el.classList.add('active');
+  }
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((e, i) => {
+      if (e.isIntersecting) {
+        setTimeout(() => {
+          e.target.style.opacity = '1';
+          e.target.style.transform = 'translateY(0)';
+        }, i * 55);
+        observer.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.08 });
+
+  document.querySelectorAll('.property-card, .city-card, .feature-item').forEach(el => {
+    el.style.opacity = '0';
+    el.style.transform = 'translateY(20px)';
+    el.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+    observer.observe(el);
+  });
+</script>
+</body>
+</html>
